@@ -28,7 +28,6 @@ endif
 
 ifeq ($(ENABLE_HYP),true)
     LOCAL_CFLAGS += -DHYPERVISOR
-
 endif
 
 ifeq ($(TARGET_USES_FOD_ZPOS), true)
