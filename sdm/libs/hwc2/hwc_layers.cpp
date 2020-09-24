@@ -545,7 +545,7 @@ HWC2::Error HWCLayer::SetLayerZOrder(uint32_t z) {
 #ifdef FOD_ZPOS
     if (z & FOD_PRESSED_LAYER_ZORDER) {
       fod_pressed_ = true;
-      z &= ~FOD_PRESSED_LAYER_ZORDER;
+      z &= ~uint32_t(FOD_PRESSED_LAYER_ZORDER);
     }
 #endif
 
