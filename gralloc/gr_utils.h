@@ -132,7 +132,6 @@ uint32_t GetBppForUncompressedRGB(int format);
 bool CpuCanAccess(uint64_t usage);
 bool CpuCanRead(uint64_t usage);
 bool CpuCanWrite(uint64_t usage);
-int GetBpp(int format);
 unsigned int GetSize(const BufferInfo &d, unsigned int alignedw, unsigned int alignedh);
 int GetBufferSizeAndDimensions(const BufferInfo &d, unsigned int *size, unsigned int *alignedw,
                                unsigned int *alignedh);
