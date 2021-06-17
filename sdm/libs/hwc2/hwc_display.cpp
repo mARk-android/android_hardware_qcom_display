@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2020, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2014-2021, The Linux Foundation. All rights reserved.
  * Not a Contribution.
  *
  * Copyright 2015 The Android Open Source Project
@@ -708,6 +708,10 @@ void HWCDisplay::BuildLayerStack() {
     if (layer->input_buffer.flags.secure_display) {
       is_secure = true;
     }
+    
+    if (IS_RGB_FORMAT(layer->input_buffer.format) && hwc_layer->IsScalingPresent()) {
+      layer_stack_.flags.scaling_rgb_layer_present = true;
+    }
 
     if (hwc_layer->IsSingleBuffered() &&
        !(hwc_layer->IsRotationPresent() || hwc_layer->IsScalingPresent())) {
@@ -788,9 +792,14 @@ void HWCDisplay::BuildLayerStack() {
     layer_stack_.layers.push_back(layer);
   }
 
+  // If layer stack needs Client composition, HWC display gets into InternalValidate state. If
+  // validation gets reset by any other thread in this state, enforce Geometry change to ensure
+  // that Client target gets composed by SF.
+  bool enforce_geometry_change = (validate_state_ == kInternalValidate) && !validated_;
+
   // TODO(user): Set correctly when SDM supports geometry_changes as bitmask
   layer_stack_.flags.geometry_changed = UINT32((geometry_changes_ ||
-                                                geometry_changes_on_doze_suspend_) > 0);
+                              geometry_changes_on_doze_suspend_) > 0) || enforce_geometry_change;
   layer_stack_.flags.config_changed = !validated_;
 
   // Append client target to the layer stack

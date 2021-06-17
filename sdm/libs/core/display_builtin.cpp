@@ -90,6 +90,7 @@ DisplayError DisplayBuiltIn::Init() {
   if (hw_panel_info_.mode == kModeCommand) {
     event_list_ = {HWEvent::VSYNC,
                    HWEvent::EXIT,
+                   HWEvent::IDLE_NOTIFY,
                    HWEvent::SHOW_BLANK_EVENT,
                    HWEvent::THERMAL_LEVEL,
                    HWEvent::IDLE_POWER_COLLAPSE,
@@ -315,6 +316,8 @@ DisplayError DisplayBuiltIn::SetDisplayMode(uint32_t mode) {
       return error;
     }
 
+    DisplayBase::ReconfigureDisplay();
+
     if (mode == kModeVideo) {
       ControlPartialUpdate(false /* enable */, &pending);
     } else if (mode == kModeCommand) {
@@ -380,6 +383,12 @@ DisplayError DisplayBuiltIn::SetRefreshRate(uint32_t refresh_rate, bool final_ra
       // Just drop min fps settting for now.
       handle_idle_timeout_ = false;
       return error;
+    }
+
+    if (handle_idle_timeout_) {
+      is_idle_timeout_ = true;
+    } else {
+      is_idle_timeout_ = false;
     }
 
     error = comp_manager_->CheckEnforceSplit(display_comp_ctx_, refresh_rate);

@@ -31,6 +31,7 @@
 #include <private/color_interface.h>
 #include <utils/constants.h>
 #include <utils/debug.h>
+#include <algorithm>
 #include "color_manager.h"
 
 #define __CLASS__ "ColorManager"

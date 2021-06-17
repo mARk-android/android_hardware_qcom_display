@@ -289,6 +289,8 @@ struct LayerStackFlags {
       uint32_t config_changed : 1;  //!< This flag indicates Display config must be validated.
 
       uint32_t mask_present : 1;  //!< Set if layer stack has mask layers.
+      
+      uint32_t scaling_rgb_layer_present : 1;  //!< Set if scaling rgb layer is present
     };
 
     uint32_t flags = 0;               //!< For initialization purpose only.

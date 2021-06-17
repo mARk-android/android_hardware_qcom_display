@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017-2019, The Linux Foundation. All rights reserved.
+* Copyright (c) 2017-2019, 2020 The Linux Foundation. All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without
 * modification, are permitted provided that the following conditions are
@@ -225,6 +225,8 @@ class HWDeviceDRM : public HWInterface {
   bool synchronous_commit_ = false;
   uint32_t topology_control_ = 0;
   uint32_t vrefresh_ = 0;
+  uint32_t panel_mode_changed_ = 0;
+  bool reset_output_fence_offset_ = false;
   uint64_t bit_clk_rate_ = 0;
   bool update_mode_ = false;
   DRMPowerMode last_power_mode_ = DRMPowerMode::OFF;
